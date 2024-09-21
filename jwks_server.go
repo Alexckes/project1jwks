@@ -7,29 +7,29 @@ import (
 
 // JWKS structure
 type JWKS struct {
-	Keys []Key `json:"keys"`
+	keys []Key `json:"keys"`
 }
 
 // Key structure
 type Key struct {
-	Kty       string `json:"kty"`
-	Alg       string `json:"alg"`
-	Use       string `json:"use"`
-	Kid       string `json:"kid"`
-	N         string `json:"n"`
-	E         string `json:"e"`
+	kty       string `json:"kty"`
+	alg       string `json:"alg"`
+	use       string `json:"use"`
+	kid       string `json:"kid"`
+	n         string `json:"n"`
+	e         string `json:"e"`
 }
 
 // Sample JWKS data
 var jwks = JWKS{
-	Keys: []Key{
+	keys: []Key{
 		{
-			Kty: "RSA",
-			Alg: "RS256",
-			Use: "sig",
-			Kid: "example-key-id", //Replace
-			N:   "your-modulus-here", // Replace with your RSA modulus
-			E:   "AQAB",               
+			kty: "RSA",
+			alg: "RS256",
+			use: "sig",
+			kid: "example-key-id", //Replace
+			n:   "your-modulus-here", // Replace with your RSA modulus
+			e:   "AQAB",               
 		},
 	},
 }
