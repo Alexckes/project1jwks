@@ -1,10 +1,10 @@
-
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/beast/version.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/strand.hpp>
 #include <boost/config.hpp>
+#include <nlohmann/json.hpp>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -15,6 +15,7 @@ namespace http = beast::http;   // from <boost/beast/http.hpp>
 namespace net = boost::asio;    // from <boost/asio.hpp>
 using tcp = net::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
+// This function produces an HTTP response for the given request.
 http::response<http::string_body> handle_request(http::request<http::string_body> const& req) {
     if (req.method() == http::verb::get && req.target() == "/api/data") {
         // Handle GET request
@@ -65,8 +66,6 @@ http::response<http::string_body> handle_request(http::request<http::string_body
     // Default response for unsupported methods
     return http::response<http::string_body>{http::status::bad_request, req.version()};
 }
-
-
 
 // This class handles an HTTP server connection.
 class Session : public std::enable_shared_from_this<Session> {
