@@ -66,22 +66,7 @@ http::response<http::string_body> handle_request(http::request<http::string_body
     return http::response<http::string_body>{http::status::bad_request, req.version()};
 }
 
-// This function produces an HTTP response for the given request.
-http::response<http::string_body> handle_request(http::request<http::string_body> const& req) {
-    // Respond to GET request with "Hello, World!"
-    if (req.method() == http::verb::get) {
-        http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::server, "Beast");
-        res.set(http::field::content_type, "text/plain");
-        res.keep_alive(req.keep_alive());
-        res.body() = "Hello, World!";
-        res.prepare_payload();
-        return res;
-    }
 
-    // Default response for unsupported methods
-    return http::response<http::string_body>{http::status::bad_request, req.version()};
-}
 
 // This class handles an HTTP server connection.
 class Session : public std::enable_shared_from_this<Session> {
