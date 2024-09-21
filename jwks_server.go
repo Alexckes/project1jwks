@@ -27,9 +27,9 @@ var jwks = JWKS{
 			Kty: "RSA",
 			Alg: "RS256",
 			Use: "sig",
-			Kid: "example-key-id",
+			Kid: "example-key-id", //Replace
 			N:   "your-modulus-here", // Replace with your RSA modulus
-			E:   "AQAB",               // This is typically the public exponent (65537)
+			E:   "AQAB",               
 		},
 	},
 }
