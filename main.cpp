@@ -15,6 +15,57 @@ namespace http = beast::http;   // from <boost/beast/http.hpp>
 namespace net = boost::asio;    // from <boost/asio.hpp>
 using tcp = net::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
+http::response<http::string_body> handle_request(http::request<http::string_body> const& req) {
+    if (req.method() == http::verb::get && req.target() == "/api/data") {
+        // Handle GET request
+        nlohmann::json json_response = {{"message", "This is a GET request"}};
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "Beast");
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = json_response.dump();
+        res.prepare_payload();
+        return res;
+    } else if (req.method() == http::verb::post && req.target() == "/api/data") {
+        // Handle POST request
+        auto json_request = nlohmann::json::parse(req.body());
+        std::string response_message = "Received: " + json_request.dump();
+        nlohmann::json json_response = {{"message", response_message}};
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "Beast");
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = json_response.dump();
+        res.prepare_payload();
+        return res;
+    } else if (req.method() == http::verb::put && req.target() == "/api/data") {
+        // Handle PUT request
+        auto json_request = nlohmann::json::parse(req.body());
+        std::string response_message = "Updated: " + json_request.dump();
+        nlohmann::json json_response = {{"message", response_message}};
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "Beast");
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = json_response.dump();
+        res.prepare_payload();
+        return res;
+    } else if (req.method() == http::verb::delete_ && req.target() == "/api/data") {
+        // Handle DELETE request
+        nlohmann::json json_response = {{"message", "Resource deleted"}};
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "Beast");
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = json_response.dump();
+        res.prepare_payload();
+        return res;
+    }
+
+    // Default response for unsupported methods
+    return http::response<http::string_body>{http::status::bad_request, req.version()};
+}
+
 // This function produces an HTTP response for the given request.
 http::response<http::string_body> handle_request(http::request<http::string_body> const& req) {
     // Respond to GET request with "Hello, World!"
